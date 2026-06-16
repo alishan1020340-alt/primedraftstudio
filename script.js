@@ -1,24 +1,36 @@
-// Sticky Navbar Shadow
+// 1. Sticky Navbar Glass Effect Enhancement
 window.addEventListener("scroll", () => {
   const navbar = document.querySelector(".navbar");
-  if (window.scrollY > 50) {
-    navbar.style.boxShadow = "0 5px 20px rgba(0,0,0,0.4)";
-  } else {
-    navbar.style.boxShadow = "none";
+  if (navbar) {
+    if (window.scrollY > 50) {
+      // Scroll karne par background thoda dark aur shadow deep ho jayegi
+      navbar.style.background = "rgba(40, 45, 55, 0.75)"; 
+      navbar.style.boxShadow = "0 10px 40px rgba(0,0,0,0.4)";
+    } else {
+      // Wapas top par aane par original glass effect
+      navbar.style.background = "rgba(40, 45, 55, 0.5)";
+      navbar.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.2)";
+    }
   }
 });
 
-// Smooth Scroll for Navigation
+// 2. Smooth Scroll for Navigation
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener("click", function(e) {
     e.preventDefault();
-    document.querySelector(this.getAttribute("href")).scrollIntoView({
-      behavior: "smooth"
-    });
+    const targetId = this.getAttribute("href");
+    if (targetId === "#") return;
+    
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: "smooth"
+      });
+    }
   });
 });
 
-// Fade In Animation
+// 3. Fade In Animation
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -35,12 +47,14 @@ document.querySelectorAll(".card, .portfolio-item, .stat, .about, .contact").for
   observer.observe(el);
 });
 
-// Counter Animation
+// 4. Counter Animation
 const counters = document.querySelectorAll(".stat h3");
 let started = false;
 
 window.addEventListener("scroll", () => {
   const statsSection = document.querySelector(".stats");
+  if (!statsSection) return; // Prevent error if section is missing
+  
   if (window.scrollY > statsSection.offsetTop - 400 && !started) {
     counters.forEach(counter => {
       const target = parseInt(counter.innerText);
@@ -61,25 +75,35 @@ window.addEventListener("scroll", () => {
   }
 });
 
-// Contact Form
+// 5. Contact Form
 const form = document.querySelector("form");
-form.addEventListener("submit", e => {
-  e.preventDefault();
-  alert("Thank you for contacting PrimeDraft Studio. We will get back to you soon.");
-  form.reset();
-});
+if (form) {
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    alert("Thank you for contacting PrimeDraft Studio. We will get back to you soon.");
+    form.reset();
+  });
+}
 
-// Lightbox
+// 6. Lightbox
 function openLightbox(item) {
   const img = item.querySelector('img');
-  document.getElementById('lightbox-img').src = img.src;
-  document.getElementById('lightbox').classList.add('active');
-  document.body.style.overflow = 'hidden';
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightbox = document.getElementById('lightbox');
+  
+  if (img && lightboxImg && lightbox) {
+    lightboxImg.src = img.src;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
 }
 
 function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('active');
-  document.body.style.overflow = 'auto';
+  const lightbox = document.getElementById('lightbox');
+  if (lightbox) {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
 }
 
 // Close lightbox with ESC key

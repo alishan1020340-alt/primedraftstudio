@@ -30,7 +30,9 @@ z-index:1000;
 .logo{
 font-size:28px;
 font-weight:400;
-color:#ff7b00;
+color:#00D4FF;
+text-shadow: 0 0 10px #00D4FF, 0 0 20px #00aacc;
+letter-spacing:2px;
 }
 
 .nav-links{
